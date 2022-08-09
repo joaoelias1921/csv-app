@@ -1,0 +1,13 @@
+$dark: #33383D;
+$darker: #1C1D20;
+$mainColor: #ffd900;
+
+$titleFont: "Jost", sans-serif;
+
+@mixin centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
