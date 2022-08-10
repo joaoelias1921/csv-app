@@ -15,4 +15,12 @@
 .dataContainer {
     @include centered();
     width: 80%;
+    min-height: 100%;
+    justify-content: flex-start;
+    .dataHeader {
+        @include centered();
+        width: 100%;
+        flex-direction: row;
+        margin-bottom: 3%;
+    }
 }

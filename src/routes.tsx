@@ -1,6 +1,9 @@
 import { FileDataProvider } from "common/context/FileData";
+import Attention from "pages/Attention";
+import Duration from "pages/Duration";
 import Home from "pages/Home";
 import StandardPage from "pages/StandardPage";
+import ViewAll from "pages/ViewAll";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export default function AppRouter() {
@@ -10,7 +13,11 @@ export default function AppRouter() {
 				<FileDataProvider>				
 					<Routes>
 						<Route path="/" element={<StandardPage />}>
-							<Route path="/home" element={<Home />} />
+							<Route path="/home" element={<Home />}>
+								<Route path="/home/all" element={<ViewAll />}/>
+								<Route path="/home/duration" element={<Duration />}/>
+								<Route path="/home/attention" element={<Attention />}/>
+							</Route>
 						</Route>
 					</Routes>
 				</FileDataProvider>

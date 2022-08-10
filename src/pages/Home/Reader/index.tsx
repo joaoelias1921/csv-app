@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useState } from "react";
 import { useCSVReader } from "react-papaparse";
+import { useNavigate } from "react-router-dom";
 import styles from "./Reader.module.scss";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 export default function Reader({ setData, setHeader }: Props) {
     const { CSVReader } = useCSVReader();
     const [accepted, setAccepted] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <>
@@ -23,6 +25,7 @@ export default function Reader({ setData, setHeader }: Props) {
                         )));
                     setHeader(results.data[0]);
                     setAccepted(true);
+                    navigate("/home/all");
                 }}
             >
                 {({
@@ -52,7 +55,8 @@ export default function Reader({ setData, setHeader }: Props) {
                                 onClick={() => {
                                     setData([]),
                                     setHeader([]),
-                                    setAccepted(false);
+                                    setAccepted(false),
+                                    navigate("/home");
                                 }}
                                 className={styles.btnsContainer__clear}
                             >

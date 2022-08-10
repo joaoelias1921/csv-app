@@ -5,10 +5,13 @@ FileDataContext.displayName = "File Data";
 
 export const FileDataProvider = ({ children }) => {
     const [fileData, setFileData] = useState([]);
+    const [header, setHeader] = useState([]);
     return (
         <FileDataContext.Provider value={ {
             fileData, 
-            setFileData
+            setFileData,
+            header,
+            setHeader
         }}>
             {children}
         </FileDataContext.Provider>

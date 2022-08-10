@@ -1,0 +1,25 @@
+@import "styles/variables";
+
+.navButton {
+    width: 100%;
+    padding: 20px;
+    background-color: transparent;
+    border: 2px solid $darker;
+    outline: none;
+    color: white;
+    transition: 240ms ease-in-out;
+    cursor: pointer;
+    &:hover {
+        background-color: $dark;
+        border: 2px solid $dark;
+    }
+}
+
+.disabled {
+    color: gray !important;
+    border-bottom: 2px solid $darker !important;
+}
+
+.selected {
+    border-bottom: 2px solid $mainColor !important;
+}

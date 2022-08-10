@@ -9,9 +9,10 @@
         padding: 15px;
         border: 1px solid $darker;
         border-radius: 20px;
-        outline: none;
-        background-color: $mainColor;
+        color: black;
         font-weight: bold;
+        outline: none;
+        background-color: $mainColor;        
         transition: 120ms ease-in-out;
         cursor: pointer;
         &:hover {

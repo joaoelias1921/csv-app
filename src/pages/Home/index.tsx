@@ -1,21 +1,13 @@
-import { Key, useContext, useState } from "react";
+import { useContext } from "react";
 import Reader from "./Reader";
 import styles from "./Home.module.scss";
 import { FileDataContext } from "common/context/FileData";
+import { Outlet } from "react-router-dom";
+import NavButton from "./NavButton";
 
 export default function Home() {
 	const { fileData, setFileData } = useContext(FileDataContext);
-	const [header, setHeader] = useState([]);
-
-	function showItems(item: Array<string>, index: Key) {
-		return (
-			<tr key={index}>
-				{item.map((info, index) => (
-					<td key={index}>{info}</td>
-				))}
-			</tr>
-		)
-	}
+	const { setHeader } = useContext(FileDataContext);
 
 	return (
 		<>
@@ -28,23 +20,23 @@ export default function Home() {
 			</section>
 			<section className={styles.dataContainer}>
 				<div className={styles.dataHeader}>
-					<button>Todos</button>
-					<button></button>
+					<NavButton pathname="/home/all">
+						Todos
+					</NavButton>
+					<NavButton pathname="/home/duration">
+						Tempo de Reunião
+					</NavButton>
+					<NavButton pathname="/home/attention">
+						Pontos de Atenção
+					</NavButton>
 				</div>
-				<table>
-					<thead>
-						<tr>
-							{header.map((item: Array<string>, index: Key) => (
-								<th key={index}>{item}</th>
-							))}
-						</tr>
-					</thead>
-					<tbody>
-						{fileData.map((item: Array<string>, index: Key) => (
-							showItems(item, index)
-						))}
-					</tbody>
-				</table>
+				{fileData.length == 0 
+					? 
+						<div className={styles.noFile}>
+							<h1>Envie um arquivo ao lado para começar!</h1>
+						</div>
+					: <Outlet />
+				}
 			</section>
 		</>
 	);
