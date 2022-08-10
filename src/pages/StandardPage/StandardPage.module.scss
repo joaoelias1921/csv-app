@@ -1,0 +1,10 @@
+@import 'styles/variables';
+
+.mainContainer {
+	@include centered();
+	width: 100%;
+	min-height: 100vh;
+	flex-direction: row;
+	background-color: $darker;
+	color: white;
+}

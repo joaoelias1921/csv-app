@@ -1,0 +1,37 @@
+@import "styles/variables";
+
+.btnsContainer {
+    @include centered();
+    width: 100%;
+    &__upload, &__clear {
+        width: 90%;
+        margin: 5% auto;
+        padding: 15px;
+        border: 1px solid $darker;
+        border-radius: 20px;
+        outline: none;
+        background-color: $mainColor;
+        font-weight: bold;
+        transition: 120ms ease-in-out;
+        cursor: pointer;
+        &:hover {
+            background-color: $darker;
+            color: white;
+        }
+    }
+    &__filename {
+        @include centered();
+        border: 2px solid white;
+        border-radius: 15px;
+        display: none;
+        width: 90%;
+        p {
+            margin-top: 2%;
+            margin-bottom: 10%;
+        }
+    }
+}
+
+.visible {
+    display: flex;
+}

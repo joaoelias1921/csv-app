@@ -1,5 +1,3 @@
-# This React project has the objective of fetching data from the Official Github API and displaying user data on your browser!
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

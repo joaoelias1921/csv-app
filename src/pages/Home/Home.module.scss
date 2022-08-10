@@ -1,1 +1,18 @@
 @import "styles/variables";
+
+.readerContainer {
+    @include centered();
+    width: 20%;
+    min-height: 100%;
+    background-color: $dark;
+    justify-content: flex-start;
+    &__title {
+        margin-top: 30%;
+        margin-bottom: 15%;
+    }
+}
+
+.dataContainer {
+    @include centered();
+    width: 80%;
+}
