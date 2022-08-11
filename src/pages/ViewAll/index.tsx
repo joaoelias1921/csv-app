@@ -3,8 +3,7 @@ import { Key, useContext } from "react";
 import styles from "./ViewAll.module.scss";
 
 export default function ViewAll() {
-    const { fileData } = useContext(FileDataContext);
-    const { header } = useContext(FileDataContext);
+    const { fileData, header } = useContext(FileDataContext);
 
 	function showItems(item: Array<string>, index: Key) {
 		return (
@@ -17,7 +16,7 @@ export default function ViewAll() {
 	}
 
     return(
-        <table>
+        <table className={styles.viewAll}>
             <thead>
                 <tr>
                     {header.map((item: Array<string>, index: Key) => (

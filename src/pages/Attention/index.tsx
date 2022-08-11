@@ -3,8 +3,7 @@ import { Key, useContext } from "react";
 import styles from "./Attention.module.scss";
 
 export default function Attention() {
-    const { fileData } = useContext(FileDataContext);
-    const { header } = useContext(FileDataContext);
+    const { fileData, header } = useContext(FileDataContext);
 
 	function showItems(item: Array<string>, index: Key) {
 		return (
@@ -17,7 +16,7 @@ export default function Attention() {
 	}
 
     return(
-        <table>
+        <table className={styles.attention}>
             <thead>
                 <tr>
                     {header.map((item: Array<string>, index: Key) => (
