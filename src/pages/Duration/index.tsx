@@ -1,13 +1,18 @@
 import { FileDataContext } from "common/context/FileData";
 import { Key, useContext, useEffect, useState } from "react";
+import { CgDanger } from "react-icons/cg";
+import { AiOutlineCheck } from "react-icons/ai";
 import styles from "./Duration.module.scss";
+
+type iUserInfo = {
+    name: string,
+    time: string
+}
 
 export default function Duration() {
     const { fileData, header } = useContext(FileDataContext);
     const [totalTime, setTotalTime] = useState("");
-    const [filteredData, setFilteredData] = useState<string[]>([]);
-    const [filteredNames, setFilteredNames] = useState<string[]>([]);
-    const [filteredTimes, setFilteredTimes] = useState<string[]>([]);
+    const [filteredData, setFilteredData] = useState<any>([{}]);
     
     useEffect(() => {
         showFilteredItems();
@@ -15,31 +20,21 @@ export default function Duration() {
     }, [totalTime]);
 
 	function showFilteredItems() {
-        let allNames: string[] = [];
-        let allTimes: string[] = [];
+        let allNamesAndTimes: [{}] = [{}];
 
         fileData.map((item: Array<string>) => {
             if(item[3] == undefined) return;
-            allNames.push(item[0], item[3]);
+            allNamesAndTimes.push({"name": item[0], "time": item[3]});
         });
 
-        if (allNames.length !== new Set(allNames).size) {
-            const filteredNames = new Set(allNames);
-            setFilteredData(Array.from(filteredNames));
-
-            allNames = [];
-
-            filteredData.forEach((item: string, index: Key) => {
-                Number(index) % 2 == 0 
-                    ? allNames.push(item)
-                    : allTimes.push(item);
+        const uniqueArray = allNamesAndTimes.filter((value, index) => {
+            const _value = JSON.stringify(value);
+            return index === allNamesAndTimes.findIndex(obj => {
+              return JSON.stringify(obj) === _value;
             });
+        });
 
-            setFilteredNames(allNames);
-            setFilteredTimes(allTimes);
-        }
-
-        return false;
+        setFilteredData(uniqueArray);
     }
 
     function getTotalTimeInSeconds() {
@@ -90,30 +85,76 @@ export default function Duration() {
         return `${hours}h ${minutes}m ${seconds}s`; // Return is HH : MM : SS
     }
 
+    function checkTime(time: string) {
+        if(time == undefined) return;
+        if(time.includes("h")) {
+            return <AiOutlineCheck color="lightgreen" />
+        }else if(time.includes("m")){
+            const splitTime = Number(time.split("m")[0]);
+            if(splitTime > 15) {
+                return <AiOutlineCheck color="lightgreen" />
+            }else if(splitTime < 15 && splitTime >= 10) {
+                return <CgDanger color="orange" />
+            } else if(splitTime < 10){
+                return <CgDanger color="red" />
+            }
+        }else {
+            return <CgDanger color="red" />
+        }
+    }
+
     return(
-        <table className={styles.duration}>
-            <thead>
-                <tr>
-                    <th>{header[0]}</th>
-                    <th>Tempo em Reunião (Total)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    filteredNames.map((item: string, index: Key) => {
-                        return(
-                            <tr key={index}>
-                                <td>{item}</td>
-                                <td>{filteredTimes[Number(index)]}</td>
-                            </tr>
-                        )                        
-                    })
-                }
-                <tr>
-                    <td><strong>Total:</strong></td>
-                    <td>{totalTime}</td>
-                </tr>
-            </tbody>
-        </table>
+        <>
+            <section className={styles.legendContainer}>
+                <h3>Legenda</h3>
+                <div className={styles.legendContainer__item}>
+                    <AiOutlineCheck
+                        className={styles.icon}
+                        color="lightgreen" 
+                    />
+                    <p>Tempo de reunião maior que 15 minutos</p>
+                </div>
+                <div className={styles.legendContainer__item}>
+                    <CgDanger
+                        className={styles.icon}
+                        color="orange" 
+                    />
+                    <p>Tempo de reunião entre 10 e 15 minutos</p>
+                </div>
+                <div className={styles.legendContainer__item}>
+                    <CgDanger
+                        className={styles.icon}
+                        color="red" 
+                    />
+                    <p>Tempo de reunião menor que 10 minutos</p>
+                </div>
+            </section>
+            <table className={styles.duration}>
+                <thead>
+                    <tr>
+                        <th>{header[0]}</th>
+                        <th>Tempo em Reunião (Total)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        filteredData.map((user: iUserInfo, index: Key) => {
+                            return(
+                                <tr key={index}>
+                                    <td>{user.name}</td>
+                                    <td>{user.time}</td>
+                                    <td>{checkTime(user.time)}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                    <tr>
+                        <td><strong>Total:</strong></td>
+                        <td>{totalTime}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </>
     );
 }

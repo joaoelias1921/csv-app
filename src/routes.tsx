@@ -1,5 +1,4 @@
 import { FileDataProvider } from "common/context/FileData";
-import Attention from "pages/Attention";
 import Duration from "pages/Duration";
 import Home from "pages/Home";
 import StandardPage from "pages/StandardPage";
@@ -16,7 +15,6 @@ export default function AppRouter() {
 							<Route path="/home" element={<Home />}>
 								<Route path="/home/all" element={<ViewAll />}/>
 								<Route path="/home/duration" element={<Duration />}/>
-								<Route path="/home/attention" element={<Attention />}/>
 							</Route>
 						</Route>
 					</Routes>

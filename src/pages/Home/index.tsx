@@ -24,10 +24,7 @@ export default function Home() {
 						Todos
 					</NavButton>
 					<NavButton pathname="/home/duration">
-						Tempo de Reunião
-					</NavButton>
-					<NavButton pathname="/home/attention">
-						Pontos de Atenção
+						Tempo de Reunião e Pontos de Atenção
 					</NavButton>
 				</div>
 				{fileData.length == 0 
