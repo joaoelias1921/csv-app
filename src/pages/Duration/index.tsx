@@ -5,29 +5,54 @@ import styles from "./Duration.module.scss";
 export default function Duration() {
     const { fileData, header } = useContext(FileDataContext);
     const [totalTime, setTotalTime] = useState("");
-    let minutesAndSeconds: string[] = [];
-    let hoursMinsAndSeconds: string[] = [];
+    const [filteredData, setFilteredData] = useState<string[]>([]);
+    const [filteredNames, setFilteredNames] = useState<string[]>([]);
+    const [filteredTimes, setFilteredTimes] = useState<string[]>([]);
     
     useEffect(() => {
+        showFilteredItems();
         setTotalTime(getTotalTimeInSeconds());
-    }, []);
+    }, [totalTime]);
 
-	function showItems(item: Array<string>, index: Key) {
-        if(item[3] == undefined) return;
+	function showFilteredItems() {
+        let allNames: string[] = [];
+        let allTimes: string[] = [];
 
-        !item[3].includes("h") 
-            ? minutesAndSeconds.push(item[3])
-            : hoursMinsAndSeconds.push(item[3]);
+        fileData.map((item: Array<string>) => {
+            if(item[3] == undefined) return;
+            allNames.push(item[0], item[3]);
+        });
 
-		return (
-			<tr key={index}>
-				<td>{item[0]}</td>
-                <td>{item[3]}</td>
-			</tr>
-		)
-	}
+        if (allNames.length !== new Set(allNames).size) {
+            const filteredNames = new Set(allNames);
+            setFilteredData(Array.from(filteredNames));
+
+            allNames = [];
+
+            filteredData.forEach((item: string, index: Key) => {
+                Number(index) % 2 == 0 
+                    ? allNames.push(item)
+                    : allTimes.push(item);
+            });
+
+            setFilteredNames(allNames);
+            setFilteredTimes(allTimes);
+        }
+
+        return false;
+    }
 
     function getTotalTimeInSeconds() {
+        let minutesAndSeconds: string[] = [];
+        let hoursMinsAndSeconds: string[] = [];
+
+        fileData.map((item: Array<string>) => {
+            if(item[3] == undefined) return;
+            !item[3].includes("h") 
+                ? minutesAndSeconds.push(item[3])
+                : hoursMinsAndSeconds.push(item[3]);
+        });
+
         // xxh xxm xxs format expected
         let hoursInSeconds = 0;
         let minutesInSeconds = 0;
@@ -74,9 +99,16 @@ export default function Duration() {
                 </tr>
             </thead>
             <tbody>
-                {fileData.map((item: Array<string>, index: Key) => (
-                    showItems(item, index)
-                ))}
+                {
+                    filteredNames.map((item: string, index: Key) => {
+                        return(
+                            <tr key={index}>
+                                <td>{item}</td>
+                                <td>{filteredTimes[Number(index)]}</td>
+                            </tr>
+                        )                        
+                    })
+                }
                 <tr>
                     <td><strong>Total:</strong></td>
                     <td>{totalTime}</td>
